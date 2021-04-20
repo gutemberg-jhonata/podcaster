@@ -8,6 +8,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - SCSS
 - JavaScript
 - NextJS
+- Date-fns
 
 ## 💻 Projeto
 
