@@ -1,11 +1,17 @@
-import styles from './styles.module.scss';
+import { useContext } from "react";
+import { PlayerContext } from "../../contexts/PlayerContext";
+import styles from "./styles.module.scss";
 
 export function Player() {
-    return (
+  const { episodes, currentEpisodeIndex } = useContext(PlayerContext);
+
+  const episode = episodes[currentEpisodeIndex];
+
+  return (
     <div className={styles.playerContainer}>
       <header>
         <img src="/playing.svg" alt="Tocando" />
-        <strong>Tocando agora</strong>
+        <strong>Tocando agora {episode?.title}</strong>
       </header>
 
       <div className={styles.emptyPlayer}>
@@ -23,19 +29,19 @@ export function Player() {
 
         <div className={styles.buttons}>
           <button type="button">
-            <img src="/shuffle.svg" alt="Embaralhar"/>
+            <img src="/shuffle.svg" alt="Embaralhar" />
           </button>
           <button type="button">
-            <img src="/play-previous.svg" alt="Tocar anterior"/>
+            <img src="/play-previous.svg" alt="Tocar anterior" />
           </button>
           <button type="button" className={styles.playButton}>
-            <img src="/play.svg" alt="Tocar"/>
+            <img src="/play.svg" alt="Tocar" />
           </button>
           <button type="button">
-            <img src="/play-next.svg" alt="Tocar próxima"/>
+            <img src="/play-next.svg" alt="Tocar próxima" />
           </button>
           <button type="button">
-            <img src="/repeat.svg" alt="Repetir"/>
+            <img src="/repeat.svg" alt="Repetir" />
           </button>
         </div>
       </footer>
