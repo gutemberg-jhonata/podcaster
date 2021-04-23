@@ -22,6 +22,7 @@ type PlayerContextData = {
   setPlayingState: (state: boolean) => void;
   playNext: () => void;
   playPrevious: () => void;
+  clearPlayerState: () => void;
   hasNext: boolean;
   hasPrevious: boolean;
 };
@@ -68,7 +69,7 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
   }
 
   const hasPrevious = currentEpisodeIndex > 0;
-  const hasNext = currentEpisodeIndex + 1 < episodes.length;
+  const hasNext = isShuffling || currentEpisodeIndex + 1 < episodes.length;
 
   function playNext() {
     if (isShuffling) {
@@ -76,8 +77,7 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
         Math.random() * episodes.length
       );
       setCurrentEpisodeIndex(nextRandomEpisodeIndex);
-    }
-    if (hasNext) {
+    } else if (hasNext) {
       setCurrentEpisodeIndex(currentEpisodeIndex + 1);
     }
   }
@@ -86,6 +86,11 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
     if (hasPrevious) {
       setCurrentEpisodeIndex(currentEpisodeIndex - 1);
     }
+  }
+
+  function clearPlayerState() {
+    setEpisodes([]);
+    setCurrentEpisodeIndex(0);
   }
 
   return (
@@ -104,6 +109,7 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
         setPlayingState,
         playNext,
         playPrevious,
+        clearPlayerState,
         hasNext,
         hasPrevious,
       }}
