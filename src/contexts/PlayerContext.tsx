@@ -13,10 +13,12 @@ type PlayerContextData = {
   currentEpisodeIndex: number;
   isPlaying: boolean;
   isLooping: boolean;
+  isShuffling: boolean;
   play: (episode: Episode) => void;
   playList: (list: Episode[], index: number) => void;
   togglePlay: () => void;
   toggleLoop: () => void;
+  toggleShuffle: () => void;
   setPlayingState: (state: boolean) => void;
   playNext: () => void;
   playPrevious: () => void;
@@ -35,6 +37,7 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLooping, setIsLooping] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(false);
 
   function play(episode: Episode) {
     setEpisodes([episode]);
@@ -48,6 +51,10 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
     setIsPlaying(true);
   }
 
+  function setPlayingState(state: boolean) {
+    setIsPlaying(state);
+  }
+
   function togglePlay() {
     setIsPlaying(!isPlaying);
   }
@@ -56,14 +63,20 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
     setIsLooping(!isLooping);
   }
 
-  function setPlayingState(state: boolean) {
-    setIsPlaying(state);
+  function toggleShuffle() {
+    setIsShuffling(!isShuffling);
   }
 
   const hasPrevious = currentEpisodeIndex > 0;
   const hasNext = currentEpisodeIndex + 1 < episodes.length;
 
   function playNext() {
+    if (isShuffling) {
+      const nextRandomEpisodeIndex = Math.floor(
+        Math.random() * episodes.length
+      );
+      setCurrentEpisodeIndex(nextRandomEpisodeIndex);
+    }
     if (hasNext) {
       setCurrentEpisodeIndex(currentEpisodeIndex + 1);
     }
@@ -82,10 +95,12 @@ export function PlayerProvider({ children }: PlayerContextProviderProps) {
         currentEpisodeIndex,
         isPlaying,
         isLooping,
+        isShuffling,
         play,
         playList,
         togglePlay,
         toggleLoop,
+        toggleShuffle,
         setPlayingState,
         playNext,
         playPrevious,
