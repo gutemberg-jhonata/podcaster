@@ -2,6 +2,7 @@ import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 import { api } from "../../services/api";
@@ -31,6 +32,10 @@ export default function Episode({ episode }: EpisodeProps) {
 
   return (
     <div className={styles.episodeContainer}>
+      <Head>
+        <title>{episode.title} | Podcaster</title>
+      </Head>
+
       <div className={styles.episode}>
         <div className={styles.thumbnailContainer}>
           <Link href="/">
