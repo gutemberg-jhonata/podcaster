@@ -1,5 +1,5 @@
-import { useContext, useEffect, useRef } from "react";
-import { PlayerContext } from "../../contexts/PlayerContext";
+import { useEffect, useRef } from "react";
+import { usePlayer } from "../../contexts/PlayerContext";
 import Image from "next/image";
 import Slider from "rc-slider";
 
@@ -19,7 +19,7 @@ export function Player() {
     playPrevious,
     hasNext,
     hasPrevious,
-  } = useContext(PlayerContext);
+  } = usePlayer();
 
   const episode = episodes[currentEpisodeIndex];
 
